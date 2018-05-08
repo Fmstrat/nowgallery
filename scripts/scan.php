@@ -1,6 +1,6 @@
 <?php
 
-	$config = parse_ini_file("/config/nowgallery.conf");
+	$config = parse_ini_file("/etc/nowgallery.conf");
 
 	function getExifDate($i) {
 		global $config;
