@@ -1,0 +1,162 @@
+
+html, body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color:#FFFFFF;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size:12pt;
+    height:100%;
+    margin:0px;
+    padding:0px;
+    text-transform:none;
+    width:100%;
+}
+
+/* HEADER */
+
+.header, .image-header {
+	height: 50px;
+	display: block;
+	font-size: 14pt;
+	font-weight: bold;
+	background-color: #0088AA;
+	width: 100%;
+	vertical-align: center;
+	text-align: center;
+	line-height: 50px;
+	color: white;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	z-index: 10;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+.header-pad {
+	height: 52px;
+}
+
+.leftbutton {
+	float: left;
+	width: 50px;
+	height: 50px;
+}
+
+.title {
+	height: 50px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.rightbutton {
+	float: right;
+	width: 50px;
+	height: 50px;
+}
+
+
+
+/* SCREENS */
+
+#fullscreen {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.nodisplay {
+	display: none;
+}
+
+.page {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+#screen-index {
+	display:inline-block;
+	overflow: auto;
+}
+
+#screen-album {
+	float:left;
+	overflow: auto;
+}
+
+.screen-image {
+	float:left;
+	background-color: black;
+}
+
+
+
+/* LISTING */
+
+#wrapper {
+	width: 100%;
+	overflow: hidden; /* will contain if #first is longer than #second */
+}
+
+#first {
+	width: 100px;
+	float: left; /* add this */
+}
+
+#second {
+	height: 100px;
+	display: table;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#second p {
+	display: table-cell; 
+	vertical-align: middle; 
+	text-align: left; 
+	font-weight: bold;
+}
+
+
+
+/* IMAGE */
+
+.mainimg, .mainimg-thumb {
+    	position: absolute;
+}
+
+
+
+/* ALBUM */
+
+.thumbdiv {
+	margin: 0px;
+	padding: 0px;
+	float: left;
+}
+
+.thumb {
+	outline: 1px solid white;
+	outline-offset: -1px;
+	margin: 0px;
+	padding: 0px;
+	display: block;
+}
+
+.datetext {
+	font-size: 12pt;
+	font-weight: bold;
+	display: block;
+	float: none;
+	clear: left;
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	background-color: #EEEEEE;
+}

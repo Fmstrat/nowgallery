@@ -1,0 +1,116 @@
+.slidein-transition {
+    -moz-animation: fadein 500ms ease-in;
+    -webkit-animation: fadein 500ms ease-in;
+    -o-animation: fadein 500ms ease-in;
+    animation: fadein 500ms ease-in;
+}
+
+@-webkit-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@-moz-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@-o-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.slidein-from-right {
+    -moz-animation: slidein-from-right2 500ms;
+    -webkit-animation: slidein-from-right2 500ms;
+    -o-animation: slidein-from-right2 500ms;
+    animation: slidein-from-right2 500ms;
+}
+@-webkit-keyframes slidein-from-right2 {
+    from {
+        -webkit-transform:translateX(100%);
+    }
+    to {
+        -webkit-transform:translateX(0%);
+    }
+}
+@-moz-keyframes slidein-from-right2 {
+    from {
+        -moz-transform:translateX(100%);
+    }
+    to {
+        -moz-transform:translateX(0%);
+    }
+}
+@-o-keyframes slidein-from-right2 {
+    from {
+        -o-transform:translateX(100%);
+    }
+    to {
+        -o-transform:translateX(0%);
+    }
+}
+@keyframes slidein-from-right2 {
+    from {
+        transform:translateX(100%);
+    }
+    to {
+        transform:translateX(0%);
+    }
+}
+.slidein-from-left {
+    -webkit-animation: slidein-from-left2 500ms;
+    -moz-animation: slidein-from-left2 500ms;
+    -o-animation: slidein-from-left2 500ms;
+    animation: slidein-from-left2 500ms;
+}
+@-webkit-keyframes slidein-from-left2 {
+    from {
+        -webkit-transform:translateX(-100%);
+    }
+    to {
+        -webkit-transform:translateX(0%);
+    }
+}
+@-moz-keyframes slidein-from-left2 {
+    from {
+        -moz-transform:translateX(-100%);
+    }
+    to {
+        -moz-transform:translateX(0%);
+    }
+}
+@-o-keyframes slidein-from-left2 {
+    from {
+        -o-transform:translateX(-100%);
+    }
+    to {
+        -o-transform:translateX(0%);
+    }
+}
+@keyframes slidein-from-left2 {
+    from {
+        transform:translateX(-100%);
+    }
+    to {
+        transform:translateX(0%);
+    }
+}
