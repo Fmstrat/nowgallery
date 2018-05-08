@@ -47,10 +47,10 @@
 		<div id="error" class="error">Invalid username or password.<p></div>
 		<form method="POST" action="login.php">
 			<div class="fieldlabel">Username</div>
-			<div class="fieldinputdiv"><input type="text" size=50 class="fieldinput" id="username" name="username"></div>
+			<div class="fieldinputdiv"><input type="text" size=20 class="fieldinput" id="username" name="username"></div>
 			<div class="header-pad"> </div>
 			<div class="fieldlabel">Password</div>
-			<div class="fieldinputdiv"><input type="password" size=50 class="fieldinput" id="password" name="password"></div>
+			<div class="fieldinputdiv"><input type="password" size=20 class="fieldinput" id="password" name="password"></div>
 			<div class="header-pad"> </div>
 			<div class="fieldinputdiv"><input type="submit" class="fieldbutton" value="Login" id="submit"></div>
 		</form>

@@ -41,7 +41,7 @@
 
 	$contents = file_get_contents("/etc/nowgallery.conf");
 	$contents = preg_replace('/username\s?=\s?".*"/', 'username = "'.$username.'"', $contents);
-	$contents = preg_replace('/password\s?=\s?".*"/', 'password = "'.$hash.'"', $contents);
+	$contents = preg_replace('/password\s?=\s?".*"/', 'password = "'.base64_encode($hash).'"', $contents);
 
 	$fh = fopen("/etc/nowgallery.conf", "w");
 	fwrite($fh, $contents);
