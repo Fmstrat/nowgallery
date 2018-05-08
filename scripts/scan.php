@@ -112,6 +112,10 @@
 		}
 	}
 
+	if (!file_exists($config["systemwebimages"]."/thumb"))
+	    mkdir($config["systemwebimages"]."/thumb", 0777, true);
+	if (!file_exists($config["systemwebimages"]."/mid"))
+	    mkdir($config["systemwebimages"]."/mid", 0777, true);
 	$webfiles = rsearch($config["systemwebimages"]."/mid","/^.*\.(jpg|gif|png|JPG|GIF|PNG)$/");
 	$files = rsearch($config["systemsourceimages"],"/^.*\.(jpg|gif|png|JPG|GIF|PNG)$/");
 	makeImages($files);
