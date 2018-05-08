@@ -2,7 +2,7 @@
 
 <div id="fullscreen">
 	<div id="screen-index" class="page">
-		<div class="header"><div class="leftbutton"><img src="images/pixel.gif" width=50 height=50></div><div class="rightbutton"><img src="images/pixel.gif" width=50 height=50></div><div class="title">Albums</div></div>
+		<div class="header"><div class="leftbutton"><img src="images/pixel.gif" width=50 height=50></div><div class="rightbutton"><img src="images/pixel.gif" width=50 height=50 id="logoutbutton" onclick="logout()"></div><div class="title">Albums</div></div>
 		<div class="header-pad"> </div>
 		<div id="albumlist"></div>
 	</div>
@@ -37,6 +37,24 @@
 	<div id="screen-image-4" class="screen-image page nodisplay">
 		<div class="image-header"><div class="leftbutton"><img src="images/back.png" width=50 height=50 onclick="window.history.back();"></div><div class="rightbutton"><img src="images/download.png" width=50 height=50 onclick="downloadImage()"></div><div id="img-title-4" class="title"></div></div>
 		<img id="mainimg-4" class="mainimg" src="">
+	</div>
+
+	<div id="screen-login" class="page">
+		<div class="header"><div class="leftbutton"><img src="images/pixel.gif" width=50 height=50></div><div class="rightbutton"><img src="images/pixel.gif" width=50 height=50></div><div class="title">Login</div></div>
+		<div class="header-pad"> </div>
+		<div class="header-pad"> </div>
+		<center>
+		<div id="error" class="error">Invalid username or password.<p></div>
+		<form method="POST" action="login.php">
+			<div class="fieldlabel">Username</div>
+			<div class="fieldinputdiv"><input type="text" size=50 class="fieldinput" id="username" name="username"></div>
+			<div class="header-pad"> </div>
+			<div class="fieldlabel">Password</div>
+			<div class="fieldinputdiv"><input type="password" size=50 class="fieldinput" id="password" name="password"></div>
+			<div class="header-pad"> </div>
+			<div class="fieldinputdiv"><input type="submit" class="fieldbutton" value="Login" id="submit"></div>
+		</form>
+		</center>
 	</div>
 </div>
 

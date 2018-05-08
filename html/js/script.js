@@ -36,6 +36,26 @@ function dirname(path) {
 	return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
 }
 
+function logout() {
+	if (loggedInUsername != '')
+		window.location = "logout.php";
+}
+
+//function login() {
+	//var username = $('#username').val();
+	//var password = $('#password').val();
+	//$.post("ajax/login.php", { username: username, password: password }, function(data) {
+		//alert(data);
+		//if (data == 'SUCCESS') {
+			//$('#screen-login').hide();
+			//loadAlbums();
+			//loggedIn = true;
+		//} else {
+			//alert("Invalid username or password.");
+		//}
+	//});
+//}
+
 function loadAlbums() {
 	$.get("ajax/albumlist.php", function(data) {
 		albums = JSON.parse(data);
@@ -318,7 +338,6 @@ window.addEventListener('popstate', function(event) {
 
 window.onload = function() { 
 	containLinks();
-	loadAlbums();
 	ismobile = mobileCheck();
 	wh = 100;
 	if (ismobile) {
@@ -369,4 +388,13 @@ window.onload = function() {
 		moveImg("mainimg-thumb-0", this.width, this.height);
 		$("#mainimg-0").attr("src", webimages+"/mid/"+images[curImage].src);
 	});
+	if (loggedIn) {
+		if (loggedInUsername != '')
+			$('#logoutbutton').attr('src', 'images/logout.png');
+		loadAlbums();
+	} else {
+		$('#screen-login').show();
+		if (loginFailed)
+			$('#error').show();
+	}
 };

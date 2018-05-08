@@ -80,6 +80,11 @@ html, body {
 	text-align: center;
 }
 
+#screen-login {
+	display:none;
+	overflow: auto;
+}
+
 #screen-index {
 	display:inline-block;
 	overflow: auto;
@@ -159,4 +164,13 @@ html, body {
 	padding-top: 10px;
 	padding-bottom: 5px;
 	background-color: #EEEEEE;
+}
+
+
+
+/* LOGIN */
+
+.error {
+	color: red;
+	display: none;
 }

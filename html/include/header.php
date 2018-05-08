@@ -24,6 +24,20 @@
 		<script type="text/javascript">
 			var webimages = "<?php echo $config["webimages"]; ?>";
 			var sourceimages = "<?php echo $config["sourceimages"]; ?>";
+			<?php
+				if ($config["username"] == "" || (isset($_COOKIE['loginCredentials']) && !empty($_COOKIE['loginCredentials']))) {
+					echo "var loggedIn = true;\n";
+					echo "var loggedInUsername = '".$config["username"]."';\n";
+				} else {
+					echo "var loggedIn = false;\n";
+					echo "var loggedInUsername = '';\n";
+				}
+				if (isset($_GET['login']) && $_GET['login'] == "failed") {
+					echo "var loginFailed = true;\n";
+				} else {
+					echo "var loginFailed = false;\n";
+				}
+			?>
 		</script>
 		<script type="text/javascript" src="js/script.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
