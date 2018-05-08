@@ -1,7 +1,7 @@
 <?php
 	require("../include/common.php");
 
-	$config = parse_ini_file("/etc/nowgallery.conf");
+	$config = parse_ini_file("/config/nowgallery.conf");
 
 	$searchpath = $_GET["p"];
 	$query = "/".$config["webimages"]."/";
