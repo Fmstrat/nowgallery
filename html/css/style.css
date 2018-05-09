@@ -136,6 +136,11 @@ html, body {
     	position: absolute;
 }
 
+.mainvid {
+	position: absolute;
+	display: none;
+}
+
 
 
 /* ALBUM */

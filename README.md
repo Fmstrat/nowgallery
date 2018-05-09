@@ -1,13 +1,12 @@
 # nowgallery
 A simple web-app gallery for desktops, iOS, and Android.
 
-This gallery takes a set of supplied source images in any folder structure you already have and generates small thumbnails and medium sized web images for display in a Progressive Web App.
+This gallery takes a set of supplied source images and videos in any folder structure you already have and generates small thumbnails, medium sized web images, and HTML5 ready mp4 videos for display in a Progressive Web App.
 
 **To do:**
 - Docker HUB image
 - Update documentation
 - Manual install outside of docker
-- Video support
 
 ## Install
 The best way to install is to use Docker.

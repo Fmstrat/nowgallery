@@ -14,8 +14,18 @@
 			$count = 0;
 			foreach ($files as &$file) {
 				$filename = basename($file);
+				$displayname = $filename;
 				$year=(int)substr($filename, 0, 4);
 				$month=(int)substr($filename, 5, 2);
+				$filetype=substr($filename, 10, 3);
+				if ($filetype == "-V-") {
+					$filetype = "video";
+					$displayname = substr($displayname, 13);
+				} else {
+					$filetype = "image";
+					$displayname = substr($displayname, 11);
+				}
+				$displayname = substr($displayname, 0, -4);
 				$displaymonth = "";
 				switch ($month) {
 					case 1:
@@ -55,7 +65,6 @@
 						$displaymonth = "December";
 						break;
 				}
-				$displayname = substr($filename, 11);
 				$src = preg_replace("/\/".$config["webimages"]."\/thumb\//", "", $file, 1);
 				$object = (object) [
 					'id' => $count,
@@ -63,6 +72,7 @@
 					'name' => $displayname,
 					'month' => $displaymonth,
 					'year' => $year,
+					'type' => $filetype,
 					'loaded' => 0
 				];
 				array_push($output, $object);
