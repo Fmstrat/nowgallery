@@ -15,14 +15,12 @@ This gallery takes a set of supplied source images and videos in any folder stru
 ## Install
 The best way to install is to use Docker.
 ```
-git clone https://github.com/Fmstrat/nowgallery.git
-cd nowgallery
-docker build --tag nowgallery .
+docker pull nowsci/nowgallery
 ```
 With the following docker compose:
 ```
   nowgallery:
-    image: nowgallery
+    image: nowsci/nowgallery
     container_name: nowgallery
     ports:
       - 80:80
