@@ -60,7 +60,7 @@ function loadAlbums() {
 	$.get("ajax/albumlist.php", function(data) {
 		albums = JSON.parse(data);
 		var html = "";
-		albums.forEach((o, i) => {
+		albums.forEach(function(o,i) {
 			html += '<div id="wrapper" onclick="openAlbum('+i+',true)">';
 			html += '<div id="first"><img src="'+o.cover+'"></div>';
 			html += '<div id="second"><p>'+o.album+'</p></div>';
@@ -86,7 +86,7 @@ function openAlbum(i, addToHistory) {
 		var prevyear = 0;
 		var prevmonth = "";
 		var html = "<center>";
-		images.forEach((o, i) => {
+		images.forEach(function(o,i) {
 			if (o.year != prevyear || o.month != prevmonth) {
 				html += '<div class="datetext">'+o.month+', '+o.year+'</div>';
 				prevyear = o.year;
