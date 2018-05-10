@@ -30,6 +30,7 @@
 	function mkVideo($videoPath, $thumbPath, $midPath, $filename, $width, $height) {
 		global $config;
 		$cmd = $config["ffmpeg"].' -i "'.$videoPath.'" 2>&1';
+		$curdir = dirname(__FILE__);
 		exec($cmd, $output, $retval);
 		if (isset($output)) {
 			$prefix = "2000-01-01-V-";
@@ -50,7 +51,7 @@
 				// Add play button which is 73x63
 				$t = floor((100-63)/2);
 				$l = floor((100-73)/2);
-				$v = new \Imagick(realpath("/scripts/play.png"));
+				$v = new \Imagick(realpath($curdir."/play.png"));
 				$i->compositeImage($v, Imagick::COMPOSITE_DEFAULT, $l, $t);
 				$i->writeImage($finalOutput);
 				unlink($tmpOutput);
@@ -58,14 +59,14 @@
 			} else {
 				if (file_exists($tmpOutput))
 					unlink($tmpOutput);
-				$i = new \Imagick(realpath("/scripts/image.png"));
+				$i = new \Imagick(realpath($curdir."/image.png"));
 				$i->cropThumbnailImage($width, $height);
 				$finalOutput = $thumbPath . "/" . $prefix . $filename . ".jpg";
 				$i->setCompressionQuality(65);
 				// Add play button which is 73x63
 				$t = floor((100-63)/2);
 				$l = floor((100-73)/2);
-				$v = new \Imagick(realpath("/scripts/play.png"));
+				$v = new \Imagick(realpath($curdir."/play.png"));
 				$i->compositeImage($v, Imagick::COMPOSITE_DEFAULT, $l, $t);
 				$i->writeImage($finalOutput);
 				echo "Made Thumb: " . $finalOutput . "\n";
