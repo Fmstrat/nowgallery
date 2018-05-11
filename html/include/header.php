@@ -40,8 +40,10 @@
 				}
 				if (isset($config['showdirectories']) && $config['showdirectories'] == 1) {
 					echo "var showDirectories = true;\n";
+					echo "var systemWebimages = '".$config["systemwebimages"]."'\n";
 				} else {
 					echo "var showDirectories = false;\n";
+					echo "var systemWebimages = '';\n";
 				}
 			?>
 		</script>

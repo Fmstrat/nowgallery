@@ -74,7 +74,7 @@ function loadAlbums() {
 }
 
 function loadDirectories() {
-	openAlbum("/webimages/thumb/", true, false, false, true);
+	openAlbum(systemWebimages+"/thumb/", true, false, false, true);
 }
 
 function openListing() {
