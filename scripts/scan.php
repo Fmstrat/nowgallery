@@ -16,15 +16,40 @@
 		return $prefix;
 	}
 
-	function mkThumb($imagePath, $outputPath, $filename, $width, $height) {
+	function autoRotateImage($image) {
+		$orientation = $image->getImageOrientation();
+		switch($orientation) {
+			case imagick::ORIENTATION_BOTTOMRIGHT:
+				$image->rotateimage("#000", 180); // rotate 180 degrees
+				break;
+			case imagick::ORIENTATION_RIGHTTOP:
+				$image->rotateimage("#000", 90); // rotate 90 degrees CW
+				break;
+			case imagick::ORIENTATION_LEFTBOTTOM:
+				$image->rotateimage("#000", -90); // rotate 90 degrees CCW
+				break;
+		}
+		$image->setImageOrientation(imagick::ORIENTATION_TOPLEFT);
+	} 
+
+	function mkImage($sourceImage, $thumbPath, $midPath, $filename) {
 		global $config;
-		$i = new \Imagick(realpath($imagePath));
-		$i->cropThumbnailImage($width, $height);
+		$i = new \Imagick(realpath($sourceImage));
+		autoRotateImage($i);
 		$prefix = getExifDate($i);
-		$finalOutput = $outputPath . "/" . $prefix . $filename;
-		$i->setCompressionQuality(65);
-		$i->writeImage($finalOutput);
-		echo "Made Thumb: " . $finalOutput . "\n";
+		$thumbfile = $thumbPath."/".$prefix.$filename;
+		$midfile = $midPath."/".$prefix.$filename;
+		if (!file_exists($midfile)) {
+			$i->scaleImage(600, 600, true);
+			$i->writeImage($midfile);
+			echo "Made Mid: " . $midfile . "\n";
+		}
+		if (!file_exists($thumbfile)) {
+			$i->cropThumbnailImage(100, 100);
+			$i->setCompressionQuality(65);
+			$i->writeImage($thumbfile);
+			echo "Made Thumb: " . $thumbfile . "\n";
+		}
 	}
 
 	function mkVideo($videoPath, $thumbPath, $midPath, $filename, $width, $height) {
@@ -81,16 +106,6 @@
 		}
 	}
 
-	function mkMid($imagePath, $outputPath, $filename, $width, $height) {
-		global $config;
-		$i = new \Imagick(realpath($imagePath));
-		$i->scaleImage($width, $height, true);
-		$prefix = getExifDate($i);
-		$finalOutput = $outputPath . "/" . $prefix . $filename;
-		$i->writeImage($finalOutput);
-		echo "Made Mid: " . $finalOutput . "\n";
-	}
-
 	function rsearch($folder, $pattern) {
 		global $config;
 		$dir = new RecursiveDirectoryIterator($folder);
@@ -114,26 +129,21 @@
 			$folder = explode('/' , $fullfolder);
 			$album = end($folder);
 			$filename = basename($file);
-			$thumbfilename = preg_replace("/".preg_replace("/\//", "\\\/", $config["systemsourceimages"])."\//", $config["systemwebimages"]."/thumb/", $file, 1);
-			$midfilename = preg_replace("/".preg_replace("/\//", "\\\/", $config["systemsourceimages"])."\//", $config["systemwebimages"]."/mid/", $file, 1);
-			$thumbpath = dirname($thumbfilename);
-			$midpath = dirname($midfilename);
+			$outputpath = preg_replace("/".preg_replace("/\//", "\\\/", $config["systemsourceimages"])."\//", "", $fullfolder, 1);
 			$filename = $filename.".jpg";
+			$thumbpath = $config['systemwebimages']."/thumb/".$outputpath;
+			$midpath = $config['systemwebimages']."/mid/".$outputpath;
 			#echo "Processing File: " . $file . "\n";
 			#echo "  Album: " . $album . "\n";
+			#echo "  Outputpath: " . $outputpath . "\n";
 			#echo "  Filename: " . $filename . "\n";
-			#echo "  Thumb Filename: " . $thumbfilename . "\n";
-			#echo "  Mid Filename: " . $midfilename . "\n";
-			#echo "  Thumb Path: " . $thumbpath . "\n";
-			#echo "  Mid Path: " . $midpath . "\n";
 			if (!file_exists($thumbpath))
 			    mkdir($thumbpath, 0777, true);
 			if (!file_exists($midpath))
 			    mkdir($midpath, 0777, true);
 			$list = glob($thumbpath."/*-*-*-".$filename);
 			if (sizeof($list) == 0) {
-				mkThumb($file, $thumbpath, $filename, 100, 100);
-				mkMid($file, $midpath, $filename, 600, 600);
+				mkImage($file, $thumbpath, $midpath, $filename);
 			}
 		}
 	}
