@@ -13,7 +13,7 @@ This gallery takes a set of supplied source images and videos in any folder stru
 </table>
 
 ## Install
-The best way to install is to use Docker.
+The best way to install is to use the docker image from the Docker Hub (https://hub.docker.com/r/nowsci/nowgallery/).
 ```
 docker pull nowsci/nowgallery
 ```
