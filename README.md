@@ -26,7 +26,7 @@ With the following docker compose:
       - 80:80
     volumes:
       - ./nowgallery/images:/webimages
-      - ./nowgallery/nowgallery.conf:/etc/nowgallery.conf:ro
+      - ./nowgallery/nowgallery.conf:/etc/nowgallery.conf
       - /storage/Pictures:/sourceimages:ro
     restart: always
 ```
