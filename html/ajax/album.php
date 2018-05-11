@@ -6,11 +6,16 @@
 	if ($config["username"] == "" || (isset($_COOKIE['loginCredentials']) && !empty($_COOKIE['loginCredentials']))) {
 
 		$searchpath = $_GET["p"];
+		$recursive = $_GET["r"];
 		$query = "/".$config["webimages"]."/";
 		if (substr($searchpath, 0, strlen($query)) === $query) {
 
 			$output = array();
-			$files = rsearch($searchpath,"/^.*\.(jpg|gif|png|JPG|GIF|PNG)$/");
+			$files = array();
+			if ($recursive)
+				$files = rsearch($searchpath,"/^.*\.(jpg|gif|png|JPG|GIF|PNG)$/");
+			else
+				$files = array_filter(glob($searchpath.'/*.jpg'));
 			$count = 0;
 			foreach ($files as &$file) {
 				$filename = basename($file);
@@ -73,6 +78,23 @@
 					'month' => $displaymonth,
 					'year' => $year,
 					'type' => $filetype,
+					'loaded' => 0
+				];
+				array_push($output, $object);
+				$count++;
+			}
+		}
+
+		if (isset($config['showdirectories']) && $config['showdirectories'] == 1) {
+			$dirs = array_filter(glob($searchpath.'/*'), 'is_dir');
+			foreach($dirs as &$dir) {
+				$object = (object) [
+					'id' => $count,
+					'src' => $dir,
+					'name' => basename($dir),
+					'month' => "",
+					'year' => "",
+					'type' => "dir",
 					'loaded' => 0
 				];
 				array_push($output, $object);

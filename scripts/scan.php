@@ -34,21 +34,23 @@
 
 	function mkImage($sourceImage, $thumbPath, $midPath, $filename) {
 		global $config;
-		$i = new \Imagick(realpath($sourceImage));
-		autoRotateImage($i);
-		$prefix = getExifDate($i);
-		$thumbfile = $thumbPath."/".$prefix.$filename;
-		$midfile = $midPath."/".$prefix.$filename;
-		if (!file_exists($midfile)) {
-			$i->scaleImage(600, 600, true);
-			$i->writeImage($midfile);
-			echo "Made Mid: " . $midfile . "\n";
-		}
-		if (!file_exists($thumbfile)) {
-			$i->cropThumbnailImage(100, 100);
-			$i->setCompressionQuality(65);
-			$i->writeImage($thumbfile);
-			echo "Made Thumb: " . $thumbfile . "\n";
+		if (filesize($sourceImage) > 0) {
+			$i = new \Imagick(realpath($sourceImage));
+			autoRotateImage($i);
+			$prefix = getExifDate($i);
+			$thumbfile = $thumbPath."/".$prefix.$filename;
+			$midfile = $midPath."/".$prefix.$filename;
+			if (!file_exists($midfile)) {
+				$i->scaleImage(600, 600, true);
+				$i->writeImage($midfile);
+				echo "Made Mid: " . $midfile . "\n";
+			}
+			if (!file_exists($thumbfile)) {
+				$i->cropThumbnailImage(100, 100);
+				$i->setCompressionQuality(65);
+				$i->writeImage($thumbfile);
+				echo "Made Thumb: " . $thumbfile . "\n";
+			}
 		}
 	}
 
@@ -118,6 +120,18 @@
 		return $fileList;
 	}
 
+	function checkIgnore($file) {
+		global $config;
+		if (isset($config["ignore"])) {
+			foreach ($config["ignore"] as &$i) {
+				if (strpos($file, $i) !== false) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	function makeImages($files) {
 		global $config;
 		$total = sizeof($files);
@@ -126,7 +140,7 @@
 			$count++;
 			echo "Processing image (".$count."/".$total.")\n";
 			$filename = basename($file);
-			if ($filename[0] != '.') {
+			if ($filename[0] != '.' && !checkIgnore($file)) {
 				$fullfolder = pathinfo($file, PATHINFO_DIRNAME);
 				$folder = explode('/' , $fullfolder);
 				$album = end($folder);
@@ -178,8 +192,8 @@
 			if (!$found) {
 				echo "Removing".$type." : " . $webfilecompare . "\n";
 				$thumbfilename = preg_replace("/".preg_replace("/\//", "\\\/", $config["systemwebimages"])."\/mid\//", $config["systemwebimages"]."/thumb/", $webfile, 1);
-				unlink($thumbfilename);
-				unlink($webfile);
+				//unlink($thumbfilename);
+				//unlink($webfile);
 			}
 		}
 	}
@@ -192,7 +206,7 @@
 			$count++;
 			echo "Processing video (".$count."/".$total.")\n";
 			$filename = basename($file);
-			if ($filename[0] != '.') {
+			if ($filename[0] != '.' && !checkIgnore($file)) {
 				$fullfolder = pathinfo($file, PATHINFO_DIRNAME);
 				$folder = explode('/' , $fullfolder);
 				$album = end($folder);

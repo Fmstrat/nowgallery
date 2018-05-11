@@ -7,10 +7,16 @@
 		<div id="albumlist"></div>
 	</div>
 
-	<div id="screen-album" class="page nodisplay">
-		<div class="header"><div class="leftbutton"><img src="images/back.png" width=50 height=50 onclick="window.history.back();"></div><div class="rightbutton"><img src="images/pixel.gif" width=50 height=50></div><div class="title" id="album-title"></div></div>
+	<div id="screen-album-0" class="page nodisplay">
+		<div class="header"><div class="leftbutton"><img id="album-back-0" src="images/back.png" width=50 height=50 onclick="window.history.back();"></div><div class="rightbutton"><img src="images/pixel.gif" width=50 height=50></div><div class="title" id="album-title-0"></div></div>
 		<div class="header-pad"> </div>
-		<div id="imagelist"></div>
+		<div id="imagelist-0"></div>
+	</div>
+
+	<div id="screen-album-1" class="page nodisplay">
+		<div class="header"><div class="leftbutton"><img id="album-back-1" src="images/back.png" width=50 height=50 onclick="window.history.back();"></div><div class="rightbutton"><img src="images/pixel.gif" width=50 height=50></div><div class="title" id="album-title-1"></div></div>
+		<div class="header-pad"> </div>
+		<div id="imagelist-1"></div>
 	</div>
 
 	<div id="screen-image-0" class="screen-image page nodisplay">

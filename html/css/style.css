@@ -90,7 +90,7 @@ html, body {
 	overflow: auto;
 }
 
-#screen-album {
+#screen-album-0, #screen-album-1 {
 	float:left;
 	overflow: auto;
 }
@@ -149,6 +149,8 @@ html, body {
 	margin: 0px;
 	padding: 0px;
 	float: left;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .thumb {

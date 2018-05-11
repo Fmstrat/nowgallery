@@ -38,6 +38,11 @@
 				} else {
 					echo "var loginFailed = false;\n";
 				}
+				if (isset($config['showdirectories']) && $config['showdirectories'] == 1) {
+					echo "var showDirectories = true;\n";
+				} else {
+					echo "var showDirectories = false;\n";
+				}
 			?>
 		</script>
 		<script type="text/javascript" src="js/script.js"></script>

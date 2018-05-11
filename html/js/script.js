@@ -5,7 +5,10 @@ var loadingImages = false;
 var imagesLoaded = false;
 var loadpos = 0;
 var curImage = 0;
+var curAlbum = 0;
 var thisImage, nextImage, prevImage, nextNextImage, prevPrevImage;
+var albumHistory = [];
+var albumNameHistory = [];
 
 function containLinks() {
 	// Mobile Safari in standalone mode
@@ -70,43 +73,134 @@ function loadAlbums() {
 	});
 }
 
+function loadDirectories() {
+	openAlbum("/webimages/thumb/", true, false, false, true);
+}
+
 function openListing() {
 	curScreen = "listing"
 	loadingImages = false;
 	$("#screen-index").toggle("slide", {direction: "left"}, 500);
-	$("#screen-album").toggle("slide", {direction: "right"}, 500);
+	$("#screen-album-"+curAlbum).toggle("slide", {direction: "right"}, 500);
 }
 
-function openAlbum(i, addToHistory) {
+function backOneAlbum() {
+	if (albumHistory.length > 1)
+		openAlbum("", false, true, true);
+}
+
+function openAlbum(i, addToHistory, subdir, back, root) {
 	if (addToHistory)
 		window.history.pushState({ noBackExitsApp: true }, '')
 	curScreen = "album";
-	$.get("ajax/album.php?p="+albums[i].albumpath, function(data) {
+	var ap = "ajax/album.php";
+	var displayname = "";
+	if (back) {
+		ap = albumHistory.pop();
+		displayname = albumNameHistory.pop();
+		ap = albumHistory[albumHistory.length-1];
+		displayname = albumNameHistory[albumNameHistory.length-1];
+	} else {
+		if (!Number.isInteger(i)) {
+			ap += "?r=0&p="+i;
+			displayname = "Images";
+		} else {
+			if (!subdir) {
+				ap += "?r=1&p="+albums[i].albumpath;
+				displayname = albums[i].album;
+			} else {
+				ap += "?r=0&p="+images[i].src;
+				displayname = images[i].name;
+			}
+		}
+		if (showDirectories) {
+			albumHistory.push(ap);
+			albumNameHistory.push(displayname);
+		}
+	}
+	if (showDirectories) {
+		if (albumHistory.length == 1) {
+			$('#album-back-0').attr("src", "images/pixel.gif");
+			$('#album-back-1').attr("src", "images/pixel.gif");
+		} else {
+			$('#album-back-0').attr("src", "images/back.png");
+			$('#album-back-1').attr("src", "images/back.png");
+		}
+	}
+	$.get(ap, function(data) {
 		images = JSON.parse(data);
-		var prevyear = 0;
+		var prevyear = -1;
 		var prevmonth = "";
 		var html = "<center>";
+		var imgAlbum = curAlbum;
+		if (subdir)
+			if (curAlbum == 0)
+				imgAlbum = 1;
+			else
+				imgAlbum = 0;
+		if (showDirectories) {
+			images.forEach(function(o,i) {
+				if (o.type == "dir") {
+					html += '<div class="thumbdiv" style="width: '+wh+'px">';
+					html += '<img width='+wh+' height='+wh+' onclick="openAlbum('+i+', true, true)" id="img-'+imgAlbum+'-'+o.id+'" class="thumb" src="images/image.png">'+o.name.replace(" ", "&nbsp;");
+					html += '</div>';
+				}
+			});
+		}
 		images.forEach(function(o,i) {
-			if (o.year != prevyear || o.month != prevmonth) {
-				html += '<div class="datetext">'+o.month+', '+o.year+'</div>';
-				prevyear = o.year;
-				prevmonth = o.month;
+			if (o.type != "dir") {
+				if (o.year != prevyear || o.month != prevmonth) {
+					if (o.year == 0)
+						html += '<div class="datetext">Unknown</div>';
+					else
+						html += '<div class="datetext">'+o.month+', '+o.year+'</div>';
+					prevyear = o.year;
+					prevmonth = o.month;
+				}
+				html += '<div class="thumbdiv">';
+				html += '<img width='+wh+' height='+wh+' onclick="openImage('+i+')" id="img-'+imgAlbum+'-'+o.id+'" class="thumb" src="images/image.png">';
+				html += '</div>';
 			}
-			html += '<div class="thumbdiv">';
-			html += '<img width='+wh+' height='+wh+' onclick="openImage('+i+')" id="img-'+o.id+'" class="thumb" src="images/image.png">';
-			html += '</div>';
 		});
 		html += "</center>";
-		$('#imagelist').html(html);
-		$('#album-title').text(albums[i].album);
-		$("#screen-index").toggle("slide", {direction: "left"}, 500);
-		$("#screen-album").toggle("slide", {direction: "right"}, 500);
-		$("#screen-album").scroll(function() {
-			clearTimeout($.data(this, 'scrollTimer'));
-			$.data(this, 'scrollTimer', setTimeout(function() {
-				stoppedScrolling();
-			}, 250));
-		});
+		if (!subdir) {
+			curAlbum = 0;
+			$('#imagelist-0').html(html);
+			$('#album-title-0').text(displayname);
+			if (root) {
+				$("#screen-album-"+curAlbum).show();
+			} else {
+				$("#screen-index").toggle("slide", {direction: "left"}, 500);
+				$("#screen-album-0").toggle("slide", {direction: "right"}, 500);
+			}
+			$("#screen-album-0").scroll(function() {
+				clearTimeout($.data(this, 'scrollTimer'));
+				$.data(this, 'scrollTimer', setTimeout(function() {
+					stoppedScrolling();
+				}, 250));
+			});
+		} else {
+			var nextAlbum = 1;
+			if (curAlbum == 1)
+				nextAlbum = 0;
+			$('#imagelist-'+nextAlbum).html(html);
+			$('#album-title-'+nextAlbum).text(displayname);
+			if (!back) {
+				$("#screen-album-"+curAlbum).toggle("slide", {direction: "left"}, 500);
+				$("#screen-album-"+nextAlbum).toggle("slide", {direction: "right"}, 500);
+			} else {
+				$("#screen-album-"+curAlbum).toggle("slide", {direction: "right"}, 500);
+				$("#screen-album-"+nextAlbum).toggle("slide", {direction: "left"}, 500);
+			}
+			//$('#imagelist-'+curAlbum).html("");
+			$("#screen-album-"+nextAlbum).scroll(function() {
+				clearTimeout($.data(this, 'scrollTimer'));
+				$.data(this, 'scrollTimer', setTimeout(function() {
+					stoppedScrolling();
+				}, 250));
+			});
+			curAlbum = nextAlbum;
+		}
 		loadImages();
 	});
 }
@@ -121,7 +215,8 @@ function loadImages() {
 				loadpos++;
 			}
 			if (loadpos < images.length) {
-				$('#img-'+loadpos).attr("src", webimages+"/thumb/"+images[loadpos].src);
+				if (images[loadpos].type != "dir")
+					$('#img-'+curAlbum+'-'+loadpos).attr("src", webimages+"/thumb/"+images[loadpos].src);
 				images[loadpos].loaded = 1;
 				loadpos += 1;
 				if (loadpos < images.length)
@@ -156,7 +251,7 @@ function stopLoadingImages() {
 
 function stoppedScrolling() {
 	if (!imagesLoaded) {
-		var curscroll = $('#screen-album').scrollTop();
+		var curscroll = $('#screen-album-'+curAlbum).scrollTop();
 		var across = Math.floor(window.innerWidth/wh);
 		var down = Math.floor(curscroll/wh);
 		var l = down*across;
@@ -210,7 +305,7 @@ function openImage(i) {
 	$("#mainimg-thumb-"+thisImage).show();
 	$("#mainimg-thumb-"+thisImage).attr("src", webimages+"/thumb/"+images[i].src);
 	$(".image-header").stop().show();
-	$("#screen-album").toggle("slide", {direction: "left"}, 500);
+	$("#screen-album-"+curAlbum).toggle("slide", {direction: "left"}, 500);
 	$("#screen-image-"+thisImage).toggle("slide", {direction: "right"}, 500, function() {
 		$(".image-header").stop().fadeOut(500);
 		loadImage(nextImage, i+1);
@@ -256,7 +351,7 @@ function swipeR() {
 
 function backToAlbum() {
 	curScreen = "album";
-	$("#screen-album").toggle("slide", {direction: "left"}, 500);
+	$("#screen-album-"+curAlbum).toggle("slide", {direction: "left"}, 500);
 	$("#screen-image-"+thisImage).toggle("slide", {direction: "right"}, 500);
 }
 
@@ -332,8 +427,13 @@ window.addEventListener("orientationchange", function() { moveAllImages(); }, fa
 window.onresize = function() { moveAllImages(); };
 
 window.addEventListener('popstate', function(event) {
-	if (curScreen == "album")
-		openListing();
+	if (curScreen == "album") {
+		if (!showDirectories) {
+			openListing();
+		} else {
+			backOneAlbum();
+		}
+	}
 	if (curScreen == "image")
 		backToAlbum();
 })
@@ -360,11 +460,13 @@ window.onload = function() {
 		$("#screen-image-4").swipe({ fingers:'all', swipeLeft:swipeL, swipeRight:swipeR, tap:toggleHeader, allowPageScroll:"auto"} );
 	});
 	$("#mainimg-0").on("load", function() {
-		$("#mainimg-thumb-0").hide();
-		$("#mainimg-0").show();
-		wha[0].w = this.width;
-		wha[0].h = this.height;
-		moveImg("mainimg-0", this.width, this.height);
+		setTimeout(function() {
+			$("#mainimg-thumb-0").hide();
+			$("#mainimg-0").show();
+			wha[0].w = this.width;
+			wha[0].h = this.height;
+			moveImg("mainimg-0", this.width, this.height);
+		}, 15);
 	});
 	$("#mainimg-1").on("load", function() {
 		wha[1].w = this.width;
@@ -423,7 +525,10 @@ window.onload = function() {
 	if (loggedIn) {
 		if (loggedInUsername != '')
 			$('#logoutbutton').attr('src', 'images/logout.png');
-		loadAlbums();
+		if (!showDirectories)
+			loadAlbums();
+		else
+			loadDirectories();
 	} else {
 		$('#screen-login').show();
 		if (loginFailed)
