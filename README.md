@@ -70,3 +70,9 @@ or
 ```
 php /scripts/user.php
 ```
+
+## Using as a Progressive Web App
+
+For Android/Chrome, here is an easy guide to *Add to Homescreen*: https://www.maketecheasier.com/add-chrome-bookmarks-android-home-screen/
+
+For iOS/Safari, use: https://www.imobie.com/support/add-bookmark-to-iphone-home-screen.htm
