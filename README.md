@@ -1,4 +1,4 @@
-# nowgallery
+# nowGallery
 A simple web-app gallery for desktops, iOS, and Android.
 
 This gallery takes a set of supplied source images and videos in any folder structure you already have and generates small thumbnails, medium sized web images, and HTML5 ready mp4 videos for display in a Progressive Web App.
