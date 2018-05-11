@@ -102,14 +102,14 @@ function openAlbum(i, addToHistory, subdir, back, root) {
 		displayname = albumNameHistory[albumNameHistory.length-1];
 	} else {
 		if (!Number.isInteger(i)) {
-			ap += "?r=0&p="+i;
+			ap += "?r=0&d=1&p="+i;
 			displayname = "Images";
 		} else {
 			if (!subdir) {
-				ap += "?r=1&p="+albums[i].albumpath;
+				ap += "?r=1&d=0&p="+albums[i].albumpath;
 				displayname = albums[i].album;
 			} else {
-				ap += "?r=0&p="+images[i].src;
+				ap += "?r=0&d=1&p="+images[i].src;
 				displayname = images[i].name;
 			}
 		}

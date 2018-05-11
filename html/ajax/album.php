@@ -85,7 +85,7 @@
 			}
 		}
 
-		if (isset($config['showdirectories']) && $config['showdirectories'] == 1) {
+		if (isset($_GET['d']) && $_GET['d'] == 1) {
 			$dirs = array_filter(glob($searchpath.'/*'), 'is_dir');
 			foreach($dirs as &$dir) {
 				$object = (object) [
