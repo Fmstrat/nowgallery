@@ -169,6 +169,7 @@ function openAlbum(i, addToHistory, subdir, back, root) {
 			$('#album-title-0').text(displayname);
 			if (root) {
 				$("#screen-album-"+curAlbum).show();
+				$("#screen-index").hide();
 			} else {
 				$("#screen-index").toggle("slide", {direction: "left"}, 500);
 				$("#screen-album-0").toggle("slide", {direction: "right"}, 500);
