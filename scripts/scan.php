@@ -125,25 +125,27 @@
 		foreach ($files as &$file) {
 			$count++;
 			echo "Processing image (".$count."/".$total.")\n";
-			$fullfolder = pathinfo($file, PATHINFO_DIRNAME);
-			$folder = explode('/' , $fullfolder);
-			$album = end($folder);
 			$filename = basename($file);
-			$outputpath = preg_replace("/".preg_replace("/\//", "\\\/", $config["systemsourceimages"])."\//", "", $fullfolder, 1);
-			$filename = $filename.".jpg";
-			$thumbpath = $config['systemwebimages']."/thumb/".$outputpath;
-			$midpath = $config['systemwebimages']."/mid/".$outputpath;
-			#echo "Processing File: " . $file . "\n";
-			#echo "  Album: " . $album . "\n";
-			#echo "  Outputpath: " . $outputpath . "\n";
-			#echo "  Filename: " . $filename . "\n";
-			if (!file_exists($thumbpath))
-			    mkdir($thumbpath, 0777, true);
-			if (!file_exists($midpath))
-			    mkdir($midpath, 0777, true);
-			$list = glob($thumbpath."/*-*-*-".$filename);
-			if (sizeof($list) == 0) {
-				mkImage($file, $thumbpath, $midpath, $filename);
+			if ($filename[0] != '.') {
+				$fullfolder = pathinfo($file, PATHINFO_DIRNAME);
+				$folder = explode('/' , $fullfolder);
+				$album = end($folder);
+				$outputpath = preg_replace("/".preg_replace("/\//", "\\\/", $config["systemsourceimages"])."\//", "", $fullfolder, 1);
+				$filename = $filename.".jpg";
+				$thumbpath = $config['systemwebimages']."/thumb/".$outputpath;
+				$midpath = $config['systemwebimages']."/mid/".$outputpath;
+				#echo "Processing File: " . $file . "\n";
+				#echo "  Album: " . $album . "\n";
+				#echo "  Outputpath: " . $outputpath . "\n";
+				#echo "  Filename: " . $filename . "\n";
+				if (!file_exists($thumbpath))
+				    mkdir($thumbpath, 0777, true);
+				if (!file_exists($midpath))
+				    mkdir($midpath, 0777, true);
+				$list = glob($thumbpath."/*-*-*-".$filename);
+				if (sizeof($list) == 0) {
+					mkImage($file, $thumbpath, $midpath, $filename);
+				}
 			}
 		}
 	}
@@ -189,28 +191,30 @@
 		foreach ($files as &$file) {
 			$count++;
 			echo "Processing video (".$count."/".$total.")\n";
-			$fullfolder = pathinfo($file, PATHINFO_DIRNAME);
-			$folder = explode('/' , $fullfolder);
-			$album = end($folder);
 			$filename = basename($file);
-			$thumbfilename = preg_replace("/".preg_replace("/\//", "\\\/", $config["systemsourceimages"])."\//", $config["systemwebimages"]."/thumb/", $file, 1);
-			$midfilename = preg_replace("/".preg_replace("/\//", "\\\/", $config["systemsourceimages"])."\//", $config["systemwebimages"]."/mid/", $file, 1);
-			$thumbpath = dirname($thumbfilename);
-			$midpath = dirname($midfilename);
-			#echo "Processing File: " . $file . "\n";
-			#echo "  Album: " . $album . "\n";
-			#echo "  Filename: " . $filename . "\n";
-			#echo "  Thumb Filename: " . $thumbfilename . "\n";
-			#echo "  Mid Filename: " . $midfilename . "\n";
-			#echo "  Thumb Path: " . $thumbpath . "\n";
-			#echo "  Mid Path: " . $midpath . "\n";
-			if (!file_exists($thumbpath))
-			    mkdir($thumbpath, 0777, true);
-			if (!file_exists($midpath))
-			    mkdir($midpath, 0777, true);
-			$list = glob($thumbpath."/2*-*-*-V-".$filename.".jpg");
-			if (sizeof($list) == 0) {
-				mkVideo($file, $thumbpath, $midpath, $filename, 100, 100);
+			if ($filename[0] != '.') {
+				$fullfolder = pathinfo($file, PATHINFO_DIRNAME);
+				$folder = explode('/' , $fullfolder);
+				$album = end($folder);
+				$thumbfilename = preg_replace("/".preg_replace("/\//", "\\\/", $config["systemsourceimages"])."\//", $config["systemwebimages"]."/thumb/", $file, 1);
+				$midfilename = preg_replace("/".preg_replace("/\//", "\\\/", $config["systemsourceimages"])."\//", $config["systemwebimages"]."/mid/", $file, 1);
+				$thumbpath = dirname($thumbfilename);
+				$midpath = dirname($midfilename);
+				#echo "Processing File: " . $file . "\n";
+				#echo "  Album: " . $album . "\n";
+				#echo "  Filename: " . $filename . "\n";
+				#echo "  Thumb Filename: " . $thumbfilename . "\n";
+				#echo "  Mid Filename: " . $midfilename . "\n";
+				#echo "  Thumb Path: " . $thumbpath . "\n";
+				#echo "  Mid Path: " . $midpath . "\n";
+				if (!file_exists($thumbpath))
+				    mkdir($thumbpath, 0777, true);
+				if (!file_exists($midpath))
+				    mkdir($midpath, 0777, true);
+				$list = glob($thumbpath."/2*-*-*-V-".$filename.".jpg");
+				if (sizeof($list) == 0) {
+					mkVideo($file, $thumbpath, $midpath, $filename, 100, 100);
+				}
 			}
 		}
 	}
