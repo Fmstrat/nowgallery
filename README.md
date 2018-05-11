@@ -30,7 +30,7 @@ With the following docker compose:
       - /storage/Pictures:/sourceimages:ro
     restart: always
 ```
-This would store any rendered thumbnails and medium sized images into `./nowgallery/images` based on existing source images in `/storage/Pictures`.
+This would create the `nowgallery.conf` file, and once a scan is run, store any rendered thumbnails, medium sized images and HTML5 ready video renders into `./nowgallery/images` based on existing source images and videos in `/storage/Pictures`.
 
 After you start the container, you can go back and edit `./nowgallery/nowgallery.conf` to change settings, though this should not be needed.
 
@@ -52,7 +52,7 @@ cp -a scripts/* /scriptes/
 ```
 
 ## Scanning images
-This will create thumbnails and mid-sized images. Run once the container is active.
+This will create thumbnails, mid-sized images and rendered videos. Run once the container is active.
 ```
 docker exec nowgallery php /scripts/scan.php
 ```
