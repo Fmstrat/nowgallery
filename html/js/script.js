@@ -142,7 +142,7 @@ function openAlbum(i, addToHistory, subdir, back, root) {
 			images.forEach(function(o,i) {
 				if (o.type == "dir") {
 					html += '<div class="thumbdiv" style="width: '+wh+'px">';
-					html += '<img width='+wh+' height='+wh+' onclick="openAlbum('+i+', true, true)" id="img-'+imgAlbum+'-'+o.id+'" class="thumb" src="images/image.png">'+o.name.replace(" ", "&nbsp;");
+					html += '<img width='+wh+' height='+wh+' onclick="openAlbum('+i+', true, true)" id="img-'+imgAlbum+'-'+o.id+'" class="thumb" src="images/image.png">'+o.name;
 					html += '</div>';
 				}
 			});
