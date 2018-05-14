@@ -2,7 +2,7 @@
 
 <div id="fullscreen">
 	<div id="screen-index" class="page">
-		<div class="header"><div class="leftbutton"><img src="images/pixel.gif" width=50 height=50></div><div class="rightbutton"><img src="images/pixel.gif" width=50 height=50 id="logoutbutton" onclick="logout()"></div><div class="title">Albums</div></div>
+		<div class="header"><div class="leftbutton"><img src="images/menu.png" width=50 height=50 onclick="toggleMenu()"></div><div class="rightbutton"><img src="images/pixel.gif" width=50 height=50></div><div class="title">Albums</div></div>
 		<div class="header-pad"> </div>
 		<div id="albumlist"></div>
 	</div>
@@ -66,6 +66,25 @@
 			<div class="fieldinputdiv"><input type="submit" class="fieldbutton" value="Login" id="submit"></div>
 		</form>
 		</center>
+	</div>
+
+	<div id="menushade" onclick="toggleMenu()">&nbsp;</div>
+
+	<div id="menu">
+		<div id="menutop">
+			<img src="images/settings.png">
+			<br>
+			<br>
+			Options
+		</div>
+		<div onclick="toggleView()">
+			<div class="menuimage"><img id="viewimg" src="images/menu-folder.png"></div>
+			<div class="menutext" id="view">View as folders</div>
+		</div>
+		<div id="logoutmenu" onclick="logout()">
+			<div class="menuimage"><img src="images/menu-logout.png"></div>
+			<div class="menutext">Logout</div>
+		</div>
 	</div>
 </div>
 

@@ -70,11 +70,30 @@ function loadAlbums() {
 			html += '</div>';
 		});
 		$('#albumlist').html(html);
+		$('#screen-index').show();
+		$('#screen-album-0').hide();
+		$('#screen-album-1').hide();
+		$('#screen-image-0').hide();
+		$('#screen-image-1').hide();
+		$('#screen-image-2').hide();
+		$('#screen-image-3').hide();
+		$('#screen-image-4').hide();
 	});
 }
 
 function loadDirectories() {
+	curAlbum = 0;
+	albumHistory = [];
+	albumNameHistory = [];
 	openAlbum(systemWebimages+"/thumb/", true, false, false, true);
+	$('#screen-index').hide();
+	$('#screen-album-0').show();
+	$('#screen-album-1').hide();
+	$('#screen-image-0').hide();
+	$('#screen-image-1').hide();
+	$('#screen-image-2').hide();
+	$('#screen-image-3').hide();
+	$('#screen-image-4').hide();
 }
 
 function openListing() {
@@ -120,12 +139,19 @@ function openAlbum(i, addToHistory, subdir, back, root) {
 	}
 	if (showDirectories) {
 		if (albumHistory.length == 1) {
-			$('#album-back-0').attr("src", "images/pixel.gif");
-			$('#album-back-1').attr("src", "images/pixel.gif");
+			$('#album-back-0').attr("src", "images/menu.png");
+			$('#album-back-1').attr("src", "images/menu.png");
+			$('#album-back-0').attr("onclick", "toggleMenu()");
+			$('#album-back-1').attr("onclick", "toggleMenu()");
 		} else {
 			$('#album-back-0').attr("src", "images/back.png");
 			$('#album-back-1').attr("src", "images/back.png");
+			$('#album-back-0').attr("onclick", "window.history.back()");
+			$('#album-back-1').attr("onclick", "window.history.back()");
 		}
+	} else {
+		$('#album-back-0').attr("src", "images/back.png");
+		$('#album-back-0').attr("onclick", "window.history.back()");
 	}
 	$.get(ap, function(data) {
 		images = JSON.parse(data);
@@ -142,7 +168,7 @@ function openAlbum(i, addToHistory, subdir, back, root) {
 			images.forEach(function(o,i) {
 				if (o.type == "dir") {
 					html += '<div class="thumbdiv" style="width: '+wh+'px">';
-					html += '<img width='+wh+' height='+wh+' onclick="openAlbum('+i+', true, true)" id="img-'+imgAlbum+'-'+o.id+'" class="thumb" src="images/image.png">'+o.name;
+					html += '<img width='+wh+' height='+wh+' onclick="openAlbum('+i+', true, true)" id="img-'+imgAlbum+'-'+o.id+'" class="thumb" src="images/folder.png">'+o.name;
 					html += '</div>';
 				}
 			});
@@ -423,6 +449,33 @@ function toggleHeader() {
 		$(".image-header").stop().fadeIn(500);
 }
 
+function toggleMenu() {
+	if ( $('#menu').is(":visible") ) {
+		$("#menu").toggle("slide", {direction: "left"}, 250);
+		$('#menushade').fadeOut(250);
+	} else {
+		//$('#menu').slide("right");
+		$("#menu").toggle("slide", {direction: "left"}, 250);
+		$('#menushade').fadeIn(250);
+	}
+}
+
+function toggleView() {
+	if (showDirectories) {
+		showDirectories = false;
+		loadAlbums();
+		toggleMenu();
+		$('#view').text("View as folders");
+		$('#viewimg').attr("src", "images/menu-folder.png");
+	} else {
+		showDirectories = true;
+		loadDirectories();
+		toggleMenu();
+		$('#view').text("View in albums");
+		$('#viewimg').attr("src", "images/menu-album.png");
+	}
+}
+
 window.addEventListener("orientationchange", function() { moveAllImages(); }, false);
 
 window.onresize = function() { moveAllImages(); };
@@ -524,8 +577,9 @@ window.onload = function() {
 		moveImg("mainvid-4", this.videoWidth, this.videoHeight);
 	});
 	if (loggedIn) {
-		if (loggedInUsername != '')
-			$('#logoutbutton').attr('src', 'images/logout.png');
+		if (loggedInUsername != '') {
+			$('#logoutmenu').show();
+		}
 		if (!showDirectories)
 			loadAlbums();
 		else
