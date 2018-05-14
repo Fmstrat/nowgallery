@@ -86,6 +86,8 @@ function loadDirectories() {
 	albumHistory = [];
 	albumNameHistory = [];
 	openAlbum(systemWebimages+"/thumb/", true, false, false, true);
+	$('#view').text("View in albums");
+	$('#viewimg').attr("src", "images/menu-album.png");
 	$('#screen-index').hide();
 	$('#screen-album-0').show();
 	$('#screen-album-1').hide();
@@ -99,6 +101,8 @@ function loadDirectories() {
 function openListing() {
 	curScreen = "listing"
 	loadingImages = false;
+	$('#view').text("View in folders");
+	$('#viewimg').attr("src", "images/menu-folder.png");
 	$("#screen-index").toggle("slide", {direction: "left"}, 500);
 	$("#screen-album-"+curAlbum).toggle("slide", {direction: "right"}, 500);
 }
