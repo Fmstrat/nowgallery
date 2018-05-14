@@ -7,9 +7,12 @@ if [ ! -d /config ]; then
 	mkdir -p /config
 fi
 
-if [ ! "$(ls -A /git)" ]; then
+if [ ! -d /git/nowgallery ]; then
 	cd /git
 	git clone https://github.com/Fmstrat/nowgallery.git
+else
+	cd /git/nowgallery
+	git pull
 fi
 if [ ! -L /var/www/html ]; then
 	rm -rf /var/www/html
