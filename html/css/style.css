@@ -189,6 +189,22 @@ html, body {
 	display: none;
 }
 
+#nav-next {
+	display: none;
+	opacity: 0.3;
+	z-index: 40;
+	position:absolute;
+	right: 0px;
+}
+
+#nav-prev {
+	display: none;
+	opacity: 0.3;
+	z-index: 40;
+	position:absolute;
+	left: 0px;
+}
+
 
 
 /* ALBUM */

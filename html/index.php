@@ -86,6 +86,9 @@
 			<div class="menutext">Logout</div>
 		</div>
 	</div>
+
+	<div id="nav-next" onclick="swipeL()"><img src="images/nav-next.png"></div>
+	<div id="nav-prev" onclick="swipeR()"><img src="images/nav-prev.png"></div>
 </div>
 
 <?php include("include/footer.php"); ?>

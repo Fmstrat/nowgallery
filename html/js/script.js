@@ -336,9 +336,25 @@ function openImage(i) {
 	$("#mainimg-thumb-"+thisImage).show();
 	$("#mainimg-thumb-"+thisImage).attr("src", webimages+"/thumb/"+images[i].src);
 	$(".image-header").stop().show();
+	if (!ismobile) {
+		moveNav();
+		$("#nav-next").stop().show();
+		if (i < images.length-1)
+			$("#nav-next").stop().show();
+		else
+			$("#nav-next").stop().hide();
+		if (i != 0)
+			$("#nav-prev").stop().show();
+		else
+			$("#nav-prev").stop().hide();
+	}
 	$("#screen-album-"+curAlbum).toggle("slide", {direction: "left"}, 500);
 	$("#screen-image-"+thisImage).toggle("slide", {direction: "right"}, 500, function() {
 		$(".image-header").stop().fadeOut(500);
+		if (!ismobile) {
+			$("#nav-next").stop().fadeOut(500);
+			$("#nav-prev").stop().fadeOut(500);
+		}
 		loadImage(nextImage, i+1);
 		loadImage(nextNextImage, i+2);
 		loadImage(prevImage, i-1);
@@ -358,6 +374,14 @@ function swipeL() {
 			nextImage = nextNextImage;
 			nextNextImage = t;
 			curImage++;
+			if (curImage < images.length-1)
+				$("#nav-next").stop().fadeIn(500);
+			else
+				$("#nav-next").stop().fadeOut(500);
+			if (curImage != 0)
+				$("#nav-prev").stop().fadeIn(500);
+			else
+				$("#nav-prev").stop().fadeOut(500);
 			loadImage(nextNextImage, curImage+2);
 		});
 	}
@@ -375,6 +399,14 @@ function swipeR() {
 			prevImage = prevPrevImage;
 			prevPrevImage = t;
 			curImage--;
+			if (curImage < images.length-1)
+				$("#nav-next").stop().fadeIn(500);
+			else
+				$("#nav-next").stop().fadeOut(500);
+			if (curImage != 0)
+				$("#nav-prev").stop().fadeIn(500);
+			else
+				$("#nav-prev").stop().fadeOut(500);
 			loadImage(prevPrevImage, curImage-2);
 		});
 	}
@@ -434,6 +466,7 @@ function moveImg(inimage, inw, inh) {
 }
 
 function moveAllImages() {
+	moveNav();
 	moveImg("mainimg-0", wha[0].w, wha[0].h);
 	moveImg("mainimg-1", wha[1].w, wha[1].h);
 	moveImg("mainimg-2", wha[2].w, wha[2].h);
@@ -446,11 +479,36 @@ function moveAllImages() {
 	moveImg("mainvid-4", wha[4].w, wha[4].h);
 }
 
+function moveNav() {
+	if (!ismobile) {
+		var winh = window.innerHeight;
+		var winw = window.innerWidth;
+		var t = Math.floor(winh/2-(75/2));
+		$("#nav-next").css("top", t+"px");
+		$("#nav-prev").css("top", t+"px");
+	}
+}
+
 function toggleHeader() {
-	if ($(".image-header").is(":visible"))
+	if ($(".image-header").is(":visible")) {
 		$(".image-header").stop().fadeOut(500);
-	else
+		if (!ismobile) {
+			$("#nav-next").stop().fadeOut(500);
+			$("#nav-prev").stop().fadeOut(500);
+		}
+	} else {
 		$(".image-header").stop().fadeIn(500);
+		if (!ismobile) {
+			if (curImage < images.length-1)
+				$("#nav-next").stop().fadeIn(500);
+			else
+				$("#nav-next").stop().fadeOut(500);
+			if (curImage != 0)
+				$("#nav-prev").stop().fadeIn(500);
+			else
+				$("#nav-prev").stop().fadeOut(500);
+		}
+	}
 }
 
 function toggleMenu() {
@@ -499,6 +557,7 @@ window.addEventListener('popstate', function(event) {
 window.onload = function() { 
 	containLinks();
 	ismobile = mobileCheck();
+	moveNav();
 	wh = 100;
 	if (ismobile) {
 		wh = Math.floor(window.innerWidth/4);
