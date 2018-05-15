@@ -9,6 +9,7 @@ var curAlbum = 0;
 var thisImage, nextImage, prevImage, nextNextImage, prevPrevImage;
 var albumHistory = [];
 var albumNameHistory = [];
+var imgCount, dirCount = 0;
 
 function containLinks() {
 	// Mobile Safari in standalone mode
@@ -169,14 +170,17 @@ function openAlbum(i, addToHistory, subdir, back, root) {
 			else
 				imgAlbum = 0;
 		if (showDirectories) {
+			dirCount = 0;
 			images.forEach(function(o,i) {
 				if (o.type == "dir") {
 					html += '<div class="thumbdiv" style="width: '+wh+'px">';
 					html += '<img width='+wh+' height='+wh+' onclick="openAlbum('+i+', true, true)" id="img-'+imgAlbum+'-'+o.id+'" class="thumb" src="images/folder.png">'+o.name;
 					html += '</div>';
+					dirCount++;
 				}
 			});
 		}
+		imgCount = 0;
 		images.forEach(function(o,i) {
 			if (o.type != "dir") {
 				if (o.year != prevyear || o.month != prevmonth) {
@@ -190,6 +194,7 @@ function openAlbum(i, addToHistory, subdir, back, root) {
 				html += '<div class="thumbdiv">';
 				html += '<img width='+wh+' height='+wh+' onclick="openImage('+i+')" id="img-'+imgAlbum+'-'+o.id+'" class="thumb" src="images/image.png">';
 				html += '</div>';
+				imgCount++;
 			}
 		});
 		html += "</center>";
@@ -241,7 +246,7 @@ function loadImages() {
 	loadingImages = true;
 	imagesLoaded = false;
 	function iteration() {
-		if (loadingImages && loadpos < images.length) {
+		if (loadingImages && loadpos < imgCount) {
 			while (loadpos < images.length && images[loadpos].loaded == 1) {
 				loadpos++;
 			}
@@ -364,7 +369,7 @@ function openImage(i) {
 
 function swipeL() {
 	// Next image
-	if (curImage+1 < images.length) {
+	if (curImage+1 < imgCount) {
 		$("#screen-image-"+thisImage).toggle("slide", {direction: "left"}, 500);
 		$("#screen-image-"+nextImage).toggle("slide", {direction: "right"}, 500, function() {
 			var t = prevPrevImage;
@@ -375,14 +380,14 @@ function swipeL() {
 			nextNextImage = t;
 			curImage++;
 			if (!ismobile) {
-				if (curImage < images.length-1)
-					$("#nav-next").stop().fadeIn(500);
+				if (curImage < imgCount-1)
+					$("#nav-next").stop().fadeIn(100);
 				else
-					$("#nav-next").stop().fadeOut(500);
+					$("#nav-next").stop().fadeOut(100);
 				if (curImage != 0)
-					$("#nav-prev").stop().fadeIn(500);
+					$("#nav-prev").stop().fadeIn(100);
 				else
-					$("#nav-prev").stop().fadeOut(500);
+					$("#nav-prev").stop().fadeOut(100);
 			}
 			loadImage(nextNextImage, curImage+2);
 		});
@@ -402,14 +407,14 @@ function swipeR() {
 			prevPrevImage = t;
 			curImage--;
 			if (!ismobile) {
-				if (curImage < images.length-1)
-					$("#nav-next").stop().fadeIn(500);
+				if (curImage < imgCount-1)
+					$("#nav-next").stop().fadeIn(100);
 				else
-					$("#nav-next").stop().fadeOut(500);
+					$("#nav-next").stop().fadeOut(100);
 				if (curImage != 0)
-					$("#nav-prev").stop().fadeIn(500);
+					$("#nav-prev").stop().fadeIn(100);
 				else
-					$("#nav-prev").stop().fadeOut(500);
+					$("#nav-prev").stop().fadeOut(100);
 			}
 			loadImage(prevPrevImage, curImage-2);
 		});
@@ -503,7 +508,7 @@ function toggleHeader() {
 	} else {
 		$(".image-header").stop().fadeIn(500);
 		if (!ismobile) {
-			if (curImage < images.length-1)
+			if (curImage < imgCount-1)
 				$("#nav-next").stop().fadeIn(500);
 			else
 				$("#nav-next").stop().fadeOut(500);
@@ -581,33 +586,41 @@ window.onload = function() {
 		$("#screen-image-4").swipe({ fingers:'all', swipeLeft:swipeL, swipeRight:swipeR, tap:toggleHeader, allowPageScroll:"auto"} );
 	});
 	$("#mainimg-0").on("load", function() {
+		wha[0].w = this.width;
+		wha[0].h = this.height;
 		setTimeout(function() {
 			$("#mainimg-thumb-0").hide();
 			$("#mainimg-0").show();
-			wha[0].w = this.width;
-			wha[0].h = this.height;
-			moveImg("mainimg-0", this.width, this.height);
+			moveImg("mainimg-0", wha[0].w, wha[0].h);
 		}, 15);
 	});
 	$("#mainimg-1").on("load", function() {
 		wha[1].w = this.width;
 		wha[1].h = this.height;
-		moveImg("mainimg-1", this.width, this.height);
+		setTimeout(function() {
+			moveImg("mainimg-1", wha[1].w, wha[1].h);
+		}, 15);
 	});
 	$("#mainimg-2").on("load", function() {
 		wha[2].w = this.width;
 		wha[2].h = this.height;
-		moveImg("mainimg-2", this.width, this.height);
+		setTimeout(function() {
+			moveImg("mainimg-2", wha[2].w, wha[2].h);
+		}, 15);
 	});
 	$("#mainimg-3").on("load", function() {
 		wha[3].w = this.width;
 		wha[3].h = this.height;
-		moveImg("mainimg-3", this.width, this.height);
+		setTimeout(function() {
+			moveImg("mainimg-3", wha[3].w, wha[3].h);
+		}, 15);
 	});
 	$("#mainimg-4").on("load", function() {
 		wha[4].w = this.width;
 		wha[4].h = this.height;
-		moveImg("mainimg-4", this.width, this.height);
+		setTimeout(function() {
+			moveImg("mainimg-4", wha[4].w, wha[4].h);
+		}, 15);
 	});
 	$("#mainimg-thumb-0").on("load", function() {
 		moveImg("mainimg-thumb-0", this.width, this.height);
