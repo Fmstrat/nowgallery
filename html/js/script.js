@@ -1,6 +1,7 @@
 var albums, images, ismobile, wh;
 var wha = [];
 var curScreen = "listing";
+var curScroll = 0;
 var loadingImages = false;
 var imagesLoaded = false;
 var loadpos = 0;
@@ -285,22 +286,32 @@ function stopLoadingImages() {
 	loadingImages = false;
 }
 
+function scrollBack() {
+	setTimeout(function() {
+		document.getElementById('screen-album-'+curAlbum).scrollTop = curScroll;
+	}, 1000);
+}
+
 function stoppedScrolling() {
+	curScroll = $('#screen-album-'+curAlbum).scrollTop();
 	if (!imagesLoaded) {
-		var curscroll = $('#screen-album-'+curAlbum).scrollTop();
 		var across = Math.floor(window.innerWidth/wh);
-		var down = Math.floor(curscroll/wh);
+		var down = Math.floor(curScroll/wh);
 		var l = down*across;
-		var top = $('#img-'+l).position().top;
+		var top = $('#img-'+curAlbum+'-'+l).position().top;
 		var origtop = top;
 		while (top > 50 && l > 0) {
 			l--;
-			top = $('#img-'+l).position().top;
+			top = $('#img-'+curAlbum+'-'+l).position().top;
 		}
 		if (origtop != top && l+1 < images.length) {
 			l++;
 		}
-		loadpos = l;
+		var newloadpos = l-across;
+		if (newloadpos > 0)
+			loadpos = newloadpos;
+		else
+			loadpos = l;
 	}
 }
 
