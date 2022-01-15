@@ -1,4 +1,6 @@
 <?php
+	$config = parse_ini_file("/etc/nowgallery.conf");
+	ini_set("memory_limit",$config["memory_limit"]);
 
 	class ExampleSortedIterator extends SplHeap {
 		public function __construct(Iterator $iterator) {

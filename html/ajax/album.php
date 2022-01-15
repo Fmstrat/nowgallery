@@ -1,8 +1,6 @@
 <?php
 	require("../include/common.php");
 
-	$config = parse_ini_file("/etc/nowgallery.conf");
-
 	if ($config["username"] == "" || (isset($_COOKIE['loginCredentials']) && !empty($_COOKIE['loginCredentials']))) {
 
 		$searchpath = $_GET["p"];

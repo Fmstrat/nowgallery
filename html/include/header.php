@@ -1,6 +1,7 @@
 <?php
 
 	$config = parse_ini_file("/etc/nowgallery.conf");
+	ini_set("memory_limit",$config["memory_limit"]);
 
 ?> <!DOCTYPE html>
 <html>
