@@ -8,6 +8,7 @@
 				$this->insert($item);
 			}
 		}
+		#[\ReturnTypeWillChange]
 		public function compare($a,$b) {
 			return strcmp($a->getRealpath(), $b->getRealpath());
 		}
