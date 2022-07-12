@@ -7,6 +7,7 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN pecl install imagick && docker-php-ext-enable imagick
 
 COPY init.sh /init.sh
+COPY policy.xml /etc/ImageMagick-6/policy.xml
 RUN chmod a+x /init.sh
 
 CMD ["/init.sh"]
