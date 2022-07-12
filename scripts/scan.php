@@ -190,10 +190,10 @@
 				}
 			}
 			if (!$found) {
-				echo "Removing".$type." : " . $webfilecompare . "\n";
+				echo "Removing ".$type.": " . $webfilecompare . "\n";
 				$thumbfilename = preg_replace("/".preg_replace("/\//", "\\\/", $config["systemwebimages"])."\/mid\//", $config["systemwebimages"]."/thumb/", $webfile, 1);
-				//unlink($thumbfilename);
-				//unlink($webfile);
+				unlink($thumbfilename);
+				unlink($webfile);
 			}
 		}
 	}
