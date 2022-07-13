@@ -27,7 +27,7 @@
 			var webimages = "<?php echo $config["webimages"]; ?>";
 			var sourceimages = "<?php echo $config["sourceimages"]; ?>";
 			<?php
-				if ($config["username"] == "" || (isset($_COOKIE['loginCredentials']) && !empty($_COOKIE['loginCredentials']))) {
+				if ($config["username"] == "" || (isset($_COOKIE['loginCreds']) && !empty($_COOKIE['loginCreds']))) {
 					echo "var loggedIn = true;\n";
 					echo "var loggedInUsername = '".$config["username"]."';\n";
 				} else {

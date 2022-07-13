@@ -1,7 +1,7 @@
 <?php
 	require("../include/common.php");
 
-	if ($config["username"] == "" || (isset($_COOKIE['loginCredentials']) && !empty($_COOKIE['loginCredentials']))) {
+	if ($config["username"] == "" || (isset($_COOKIE['loginCreds']) && !empty($_COOKIE['loginCreds']))) {
 
 		$searchpath = $_GET["p"];
 		$recursive = $_GET["r"];
