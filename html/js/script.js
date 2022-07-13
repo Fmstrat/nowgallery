@@ -2,6 +2,7 @@ var albums, images, ismobile, wh;
 var wha = [];
 var curScreen = "listing";
 var curScroll = 0;
+var curAlbumScroll = 0;
 var loadingImages = false;
 var imagesLoaded = false;
 var loadpos = 0;
@@ -157,7 +158,7 @@ function openAlbum(i, addToHistory, subdir, back, root) {
 		}
 	} else {
 		$('#album-back-0').attr("src", "images/back.png");
-		$('#album-back-0').attr("onclick", "window.history.back()");
+		$('#album-back-0').attr("onclick", "backToAlbumList()");
 	}
 	$.get(ap, function(data) {
 		images = JSON.parse(data);
@@ -242,6 +243,13 @@ function openAlbum(i, addToHistory, subdir, back, root) {
 	});
 }
 
+function backToAlbumList() {
+	window.history.back();
+	setTimeout(function() {
+		document.getElementById('screen-index').scrollTop = curAlbumScroll;
+	}, 1000);
+}
+
 function loadImages() {
 	loadpos = 0;
 	loadingImages = true;
@@ -313,6 +321,10 @@ function stoppedScrolling() {
 		else
 			loadpos = l;
 	}
+}
+
+function stoppedAlbumScrolling() {
+	curAlbumScroll = $('#screen-index').scrollTop();
 }
 
 function videoFilename(v) {
@@ -666,6 +678,12 @@ window.onload = function() {
 		wha[0].w = this.videoWidth;
 		wha[0].h = this.videoHeight;
 		moveImg("mainvid-4", this.videoWidth, this.videoHeight);
+	});
+	$("#screen-index").scroll(function() {
+		clearTimeout($.data(this, 'scrollTimer'));
+		$.data(this, 'scrollTimer', setTimeout(function() {
+			stoppedAlbumScrolling();
+		}, 250));
 	});
 	if (loggedIn) {
 		if (loggedInUsername != '') {
