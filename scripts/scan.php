@@ -192,6 +192,7 @@
 			if (!$found) {
 				echo "Removing ".$type.": " . $webfilecompare . "\n";
 				$thumbfilename = preg_replace("/".preg_replace("/\//", "\\\/", $config["systemwebimages"])."\/mid\//", $config["systemwebimages"]."/thumb/", $webfile, 1);
+				$thumbfilename = substr_replace($thumbfilename, 'jpg', -3);
 				unlink($thumbfilename);
 				unlink($webfile);
 			}
