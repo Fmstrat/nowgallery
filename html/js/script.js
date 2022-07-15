@@ -67,8 +67,9 @@ function loadAlbums() {
 		albums = JSON.parse(data);
 		var html = "";
 		albums.forEach(function(o,i) {
+			let cover = encodeURI(o.cover).replace("?", "%3F");
 			html += '<div id="wrapper" onclick="openAlbum('+i+',true)">';
-			html += '<div id="first"><img src="'+o.cover+'"></div>';
+			html += '<div id="first"><img src="'+cover+'"></div>';
 			html += '<div id="second"><p>'+o.album+'</p></div>';
 			html += '</div>';
 		});
@@ -260,8 +261,10 @@ function loadImages() {
 				loadpos++;
 			}
 			if (loadpos < images.length) {
-				if (images[loadpos].type != "dir")
-					$('#img-'+curAlbum+'-'+loadpos).attr("src", webimages+"/thumb/"+images[loadpos].src);
+				if (images[loadpos].type != "dir") {
+					let img = webimages+"/thumb/"+encodeURI(images[loadpos].src).replace("?", "%3F");
+					$('#img-'+curAlbum+'-'+loadpos).attr("src", img);
+				}
 				images[loadpos].loaded = 1;
 				loadpos += 1;
 				if (loadpos < images.length)
@@ -337,12 +340,13 @@ function loadImage(s, i) {
 	if (i < images.length && i >= 0) {
 		//alert(s+" "+i);
 		$("#img-title-"+s).text(images[i].name);
+		let img = encodeURI(images[i].src).replace("?", "%3F");
 		if (images[i].type == "image") {
-			$("#mainimg-"+s).attr("src", webimages+"/mid/"+images[i].src);
+			$("#mainimg-"+s).attr("src", webimages+"/mid/"+img);
 			$("#mainimg-"+s).show();
 			$("#mainvid-"+s).hide();
 		} else {
-			$("#mainvid-"+s).attr("src", webimages+"/mid/"+videoFilename(images[i].src));
+			$("#mainvid-"+s).attr("src", webimages+"/mid/"+videoFilename(img));
 			$("#mainvid-"+s).show();
 			$("#mainimg-"+s).hide();
 		}
@@ -362,7 +366,8 @@ function openImage(i) {
 	$("#mainimg-"+thisImage).hide();
 	$("#mainvid-"+thisImage).hide();
 	$("#mainimg-thumb-"+thisImage).show();
-	$("#mainimg-thumb-"+thisImage).attr("src", webimages+"/thumb/"+images[i].src);
+	let img = encodeURI(images[i].src).replace("?", "%3F");
+	$("#mainimg-thumb-"+thisImage).attr("src", webimages+"/thumb/"+img);
 	$(".image-header").stop().show();
 	if (!ismobile) {
 		moveNav();
@@ -647,10 +652,11 @@ window.onload = function() {
 	});
 	$("#mainimg-thumb-0").on("load", function() {
 		moveImg("mainimg-thumb-0", this.width, this.height);
+		let img = encodeURI(images[curImage].src).replace("?", "%3F");
 		if (images[curImage].type == "image")
-			$("#mainimg-0").attr("src", webimages+"/mid/"+images[curImage].src);
+			$("#mainimg-0").attr("src", webimages+"/mid/"+img);
 		else
-			$("#mainvid-0").attr("src", webimages+"/mid/"+videoFilename(images[curImage].src));
+			$("#mainvid-0").attr("src", webimages+"/mid/"+videoFilename(img));
 	});
 	$("#mainvid-0").on("loadedmetadata", function() {
 		$("#mainimg-thumb-0").hide();
